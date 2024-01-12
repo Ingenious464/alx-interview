@@ -1,29 +1,33 @@
-#!/usr/bin/env python3
-''' lockboxes
+#!/usr/bin/python3
 '''
+lockBoxes Challenge'''
 
 
-def canUnlockAll(boxes: List[List[int]]) -> bool:
-    """
-    Determines if all boxes can be opened.
-
-    Parameters:
-    - boxes (List[List[int]]): A list of lists where each inner list represents
- a box and contains keys.
-
+def canUnlockAll(boxes):
+    '''determines if all the boxes can be opened or not
     Returns:
-    - bool: True if all boxes can be opened, else False.
-    """
-    if not boxes or not isinstance(boxes, list):
-        return False
+        True: all boxes can be opened
+        False: not all boxes can be opened
+    '''
+    length = len(boxes)
+    keys = set()
+    opened_boxes = []
+    i = 0
 
-    # Initialize a set to keep track of opened boxes
-    opened_boxes = set([0])
+    while i < length:
+        oldi = i
+        opened_boxes.append(i)
+        keys.update(boxes[i])
+        for key in keys:
+            if key != 0 and key < length and key not in opened_boxes:
+                i = key
+                break
+        if oldi != i:
+            continue
+        else:
+            break
 
-    # Process each box and update the set of opened boxes
-    for box_number, keys in enumerate(boxes):
-        if box_number in opened_boxes:
-            opened_boxes.update(keys)
-
-    # Check if all boxes are opened
-    return len(opened_boxes) == len(boxes)
+    for i in range(length):
+        if i not in opened_boxes and i != 0:
+            return False
+    return True
